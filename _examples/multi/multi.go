@@ -5,10 +5,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/apex/log"
-	"github.com/apex/log/handlers/json"
-	"github.com/apex/log/handlers/multi"
-	"github.com/apex/log/handlers/text"
+	"github.com/yewno/log"
+	"github.com/yewno/log/handlers/json"
+	"github.com/yewno/log/handlers/multi"
+	"github.com/yewno/log/handlers/text"
 )
 
 func main() {

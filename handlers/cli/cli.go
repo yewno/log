@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/apex/log"
+	"github.com/yewno/log"
 )
 
 // Default handler outputting to stderr.

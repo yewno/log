@@ -5,9 +5,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/apex/log"
-	"github.com/apex/log/handlers/level"
-	"github.com/apex/log/handlers/memory"
+	"github.com/yewno/log"
+	"github.com/yewno/log/handlers/level"
+	"github.com/yewno/log/handlers/memory"
 )
 
 func Test(t *testing.T) {

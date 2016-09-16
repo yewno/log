@@ -1,6 +1,9 @@
 
 # log
 
+Modified version of TJ Holowaychuk's log component [apex/log](http://github.com/apex/log)
+
+
 Package log implements a simple structured logging API inspired by Logrus, designed with centralization in mind. Read more on [Medium](https://medium.com/@tjholowaychuk/apex-log-e8d9627f4a9a#.rav8yhkud).
 
 ## Handlers

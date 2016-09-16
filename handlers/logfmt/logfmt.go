@@ -6,8 +6,8 @@ import (
 	"os"
 	"sync"
 
-	"github.com/apex/log"
 	"github.com/go-logfmt/logfmt"
+	"github.com/yewno/log"
 )
 
 // Default handler outputting to stderr.

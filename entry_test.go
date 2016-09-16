@@ -22,6 +22,7 @@ func TestEntry_WithFields(t *testing.T) {
 	assert.Equal(t, e.Fields, Fields{"foo": "hello", "bar": "world"})
 	assert.Equal(t, e.Level, InfoLevel)
 	assert.NotEmpty(t, e.Timestamp)
+	assert.Equal(t, e.Func, "testing.tRunner")
 }
 
 func TestEntry_WithField(t *testing.T) {

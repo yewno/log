@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/apex/log"
+	"github.com/yewno/log"
 )
 
 // Default handler outputting to stderr.
@@ -39,11 +39,11 @@ var Colors = [...]int{
 
 // Strings mapping.
 var Strings = [...]string{
-	log.DebugLevel: "DEBUG",
-	log.InfoLevel:  "INFO",
-	log.WarnLevel:  "WARN",
-	log.ErrorLevel: "ERROR",
-	log.FatalLevel: "FATAL",
+	log.DebugLevel: "D",
+	log.InfoLevel:  "I",
+	log.WarnLevel:  "W",
+	log.ErrorLevel: "E",
+	log.FatalLevel: "F",
 }
 
 // field used for sorting.
@@ -88,9 +88,9 @@ func (h *Handler) HandleLog(e *log.Entry) error {
 	h.mu.Lock()
 	defer h.mu.Unlock()
 
-	ts := time.Since(start) / time.Second
-	fmt.Fprintf(h.Writer, "\033[%dm%6s\033[0m[%04d] %-25s", color, level, ts, e.Message)
+	fmt.Fprintf(h.Writer, "\033[%dm%s\033[0m[%s] \033[%dm%s:%d\033[0m %-25s", color, level, e.Timestamp.Format("20060102 15:04:05.000"), color, e.Func, e.Line, e.Message)
 
+	// end TODO
 	for _, f := range fields {
 		fmt.Fprintf(h.Writer, " \033[%dm%s\033[0m=%v", color, f.Name, f.Value)
 	}

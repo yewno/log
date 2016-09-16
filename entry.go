@@ -3,6 +3,8 @@ package log
 import (
 	"fmt"
 	"os"
+	"runtime"
+	"strings"
 	"time"
 )
 
@@ -12,6 +14,44 @@ var _ Interface = (*Entry)(nil)
 // Now returns the current time.
 var Now = time.Now
 
+type CallerInfo struct {
+	PathName string
+	FileName string
+	LineNo   uint32
+	FuncName string
+}
+
+const (
+	thisPackageName = "log"
+	thisFileName    = "logger.go"
+)
+
+var (
+	UnknownCallerInfo = &CallerInfo{}
+)
+
+func findCaller() *CallerInfo {
+	for i := 3; ; i++ {
+		pc, filepath, line, ok := runtime.Caller(i)
+		if !ok {
+			return UnknownCallerInfo
+		}
+		parts := strings.Split(filepath, "/")
+		dir := parts[len(parts)-2]
+		file := parts[len(parts)-1]
+		fmt.Println(dir, ":", file)
+		if (dir != thisPackageName) && (file != thisFileName) {
+			funcName := runtime.FuncForPC(pc).Name()
+			return &CallerInfo{
+				PathName: filepath,
+				FileName: file,
+				LineNo:   uint32(line),
+				FuncName: funcName,
+			}
+		}
+	}
+}
+
 // Entry represents a single log entry.
 type Entry struct {
 	Logger    *Logger   `json:"-"`
@@ -19,8 +59,12 @@ type Entry struct {
 	Level     Level     `json:"level"`
 	Timestamp time.Time `json:"timestamp"`
 	Message   string    `json:"message"`
-	start     time.Time
-	fields    []Fields
+	Path      string    `json:"path,omitempty"`
+	File      string    `json:"file,omitempty"`
+	Line      uint32    `json:"line,omitempty"`
+	Func      string    `json:"func,omitempty"`
+	start     time.Time `json:"-"`
+	fields    []Fields  `json:"-"`
 }
 
 // NewEntry returns a new entry for `log`.
@@ -137,11 +181,16 @@ func (e *Entry) mergedFields() Fields {
 
 // finalize returns a copy of the Entry with Fields merged.
 func (e *Entry) finalize(level Level, msg string) *Entry {
+	fileInfo := findCaller()
 	return &Entry{
 		Logger:    e.Logger,
 		Fields:    e.mergedFields(),
 		Level:     level,
 		Message:   msg,
 		Timestamp: Now(),
+		Func:      fileInfo.FuncName,
+		File:      fileInfo.FileName,
+		Line:      fileInfo.LineNo,
+		Path:      fileInfo.PathName,
 	}
 }
