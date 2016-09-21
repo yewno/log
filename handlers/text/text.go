@@ -25,13 +25,15 @@ const (
 	green  = 32
 	yellow = 33
 	blue   = 34
+	purple = 35
+	cyan   = 36
 	gray   = 37
 )
 
 // Colors mapping.
 var Colors = [...]int{
-	log.DebugLevel: gray,
-	log.InfoLevel:  blue,
+	log.DebugLevel: green,
+	log.InfoLevel:  cyan,
 	log.WarnLevel:  yellow,
 	log.ErrorLevel: red,
 	log.FatalLevel: red,
@@ -88,7 +90,7 @@ func (h *Handler) HandleLog(e *log.Entry) error {
 	h.mu.Lock()
 	defer h.mu.Unlock()
 
-	fmt.Fprintf(h.Writer, "\033[%dm%s\033[0m[%s] \033[%dm%s:%d\033[0m %-25s", color, level, e.Timestamp.Format("20060102 15:04:05.000"), color, e.Func, e.Line, e.Message)
+	fmt.Fprintf(h.Writer, "\033[0m[%s] \033[%dm%s %s:%d\033[0m %-25s", e.Timestamp.Format("20060102 15:04:05.000"), color, level, e.Func, e.Line, e.Message)
 
 	// end TODO
 	for _, f := range fields {

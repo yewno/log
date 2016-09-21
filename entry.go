@@ -3,6 +3,7 @@ package log
 import (
 	"fmt"
 	"os"
+	"path"
 	"runtime"
 	"strings"
 	"time"
@@ -31,7 +32,7 @@ var (
 )
 
 func findCaller() *CallerInfo {
-	for i := 3; ; i++ {
+	for i := 4; ; i++ {
 		pc, filepath, line, ok := runtime.Caller(i)
 		if !ok {
 			return UnknownCallerInfo
@@ -39,14 +40,13 @@ func findCaller() *CallerInfo {
 		parts := strings.Split(filepath, "/")
 		dir := parts[len(parts)-2]
 		file := parts[len(parts)-1]
-		fmt.Println(dir, ":", file)
 		if (dir != thisPackageName) && (file != thisFileName) {
 			funcName := runtime.FuncForPC(pc).Name()
 			return &CallerInfo{
 				PathName: filepath,
 				FileName: file,
 				LineNo:   uint32(line),
-				FuncName: funcName,
+				FuncName: path.Base(funcName),
 			}
 		}
 	}
