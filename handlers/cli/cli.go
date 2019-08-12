@@ -30,8 +30,8 @@ const (
 
 // Colors mapping.
 var Colors = [...]int{
-	log.DebugLevel: gray,
-	log.InfoLevel:  blue,
+	log.DebugLevel: blue,
+	log.InfoLevel:  green,
 	log.WarnLevel:  yellow,
 	log.ErrorLevel: red,
 	log.FatalLevel: red,
@@ -40,10 +40,10 @@ var Colors = [...]int{
 // Strings mapping.
 var Strings = [...]string{
 	log.DebugLevel: "•",
-	log.InfoLevel:  "•",
-	log.WarnLevel:  "•",
-	log.ErrorLevel: "⨯",
-	log.FatalLevel: "⨯",
+	log.InfoLevel:  "[INFO]",
+	log.WarnLevel:  "[WARNING]",
+	log.ErrorLevel: "[ERROR]",
+	log.FatalLevel: "[FATAL]",
 }
 
 // field used for sorting.

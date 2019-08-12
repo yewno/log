@@ -38,7 +38,7 @@ func main() {
 	}()
 
 	go func() {
-		for range time.Tick(2 * time.Second) {
+		for range time.Tick(1 * time.Second) {
 			err := errors.New("boom")
 			ctx.WithError(err).Error("upload failed")
 		}
