@@ -89,8 +89,9 @@ func (h *Handler) HandleLog(e *log.Entry) error {
 
 	h.mu.Lock()
 	defer h.mu.Unlock()
+	tm := time.Now().Format("2006-01-02 15:04:05")
 
-	fmt.Fprintf(h.Writer, "\033[%dm%*s\033[0m %-25s", color, h.Padding+1, level, e.Message)
+	fmt.Fprintf(h.Writer, "%v \033[%dm%*s\033[0m %-25s", tm, color, h.Padding+1, level, e.Message)
 
 	for _, f := range fields {
 		fmt.Fprintf(h.Writer, " \033[%dm%s\033[0m=%v", color, f.Name, f.Value)
